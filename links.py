@@ -11,7 +11,7 @@ def scrape_all_ribbonfarm():
         "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Mobile Safari/537.36"
     }
     res = requests.get('https://www.ribbonfarm.com/', headers=headers)
-    with open('links.csv', 'a') as f:
+    with open('links.csv', 'w') as f:
         csv_w = csv.writer(f)
         while True:
             links = []
@@ -23,16 +23,19 @@ def scrape_all_ribbonfarm():
                 res = requests.get(link, headers=headers)
                 soup = BeautifulSoup(res.text, 'html.parser')
                 new_outbound = [
-                    hyper.a['href'] for hyper in soup.select("em")
-                    if hyper.a and hyper.a['href'] not in [
+                    hyper['href']
+                    for hyper in soup.select(".entry-content p > a")
+                    if hyper['href'] not in [
                         'https://git.zfadd.is/zacharius/Mastobots',
-                        'http://refactorcamp.org/'
-                        'http://tempobook.com'
+                        'http://refactorcamp.org/', 'http://tempobook.com'
                     ]
                 ]
+                title = soup.select('.entry-title')[0].get_text()
+                date = soup.select('.date')[0].get_text()
+                author = soup.select('.author a')[0].get_text()
                 print(new_outbound)
                 for link in new_outbound:
-                    csv_w.writerow([link])
+                    csv_w.writerow([link, title, author, date])
             if btn:
                 res = requests.get(btn[0].a['href'], headers=headers)
             else:
