@@ -22,14 +22,13 @@ def scrape_all_ribbonfarm():
             for link in links:
                 res = requests.get(link, headers=headers)
                 soup = BeautifulSoup(res.text, 'html.parser')
-                new_outbound = [
-                    hyper['href']
-                    for hyper in soup.select(".entry-content p > a")
-                    if hyper['href'] and hyper['href'] not in [
-                        'https://git.zfadd.is/zacharius/Mastobots',
-                        'http://refactorcamp.org/', 'http://tempobook.com'
-                    ]
-                ]
+                new_outbound = []
+                for hyper in soup.select(".entry-content p > a"):
+                    if hasattr(hyper, "href"):
+                        try:
+                            new_outbound.append(hyper['href'])
+                        except KeyError:
+                            print(f"I failed here {hyper}")
                 title = soup.select('.entry-title')[0].get_text()
                 date = soup.select('.date')[0].get_text()
                 author = soup.select('.author a')[0].get_text()
