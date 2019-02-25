@@ -25,7 +25,7 @@ def scrape_all_ribbonfarm():
                 new_outbound = [
                     hyper['href']
                     for hyper in soup.select(".entry-content p > a")
-                    if hyper['href'] not in [
+                    if hyper['href'] and hyper['href'] not in [
                         'https://git.zfadd.is/zacharius/Mastobots',
                         'http://refactorcamp.org/', 'http://tempobook.com'
                     ]
