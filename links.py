@@ -45,4 +45,7 @@ def counter():
     with open('links.csv', 'r') as f:
         csv_r = list(csv.reader(f))
         flat = [link[0] for link in csv_r]
-        print(Counter(flat))
+        data = Counter(flat)
+        for item, count in data.items():
+            if count > 2:
+                print(item, count)
