@@ -1,8 +1,9 @@
 from flask import Flask
 import csv
 import json
-import pdb
+from flask_cors import CORS, cross_origin
 app = Flask(__name__)
+CORS(app)
 
 
 @app.route('/')
