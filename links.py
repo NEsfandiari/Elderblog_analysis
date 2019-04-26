@@ -28,7 +28,7 @@ def scrape_all_ribbonfarm():
                         try:
                             new_outbound.append(hyper['href'])
                         except KeyError:
-                            print(f"I failed here {hyper}")
+                            print("I failed here {}".format(hyper))
                 title = soup.select('.entry-title')[0].get_text()
                 date = soup.select('.date')[0].get_text()
                 author = soup.select('.author a')[0].get_text()
@@ -41,11 +41,17 @@ def scrape_all_ribbonfarm():
                 break
 
 
-def counter():
+def top_100():
     with open('links.csv', 'r') as f:
         csv_r = list(csv.reader(f))
         flat = [link[0] for link in csv_r]
         data = Counter(flat)
-        for item, count in data.items():
-            if count > 2:
-                print(item, count)
+        return data.most_common(100)
+
+
+def all_data():
+    with open('links.csv', 'r') as f:
+        fieldnames = ("Link", "Article", "Author", "Date")
+        data = csv.DictReader(f, fieldnames=fieldnames)
+        data = {"data": [row for row in data]}
+        return data
