@@ -1,5 +1,6 @@
 from links import scrape_links_ribbonfarm
-from links import counter
+from words import scrape_words_ribbonfarm
+from words import tf_idf
 
-# scrape_all_ribbonfarm()
-counter()
+#scrape_words_ribbonfarm()
+tf_idf()

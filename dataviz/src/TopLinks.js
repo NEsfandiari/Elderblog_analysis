@@ -1,7 +1,7 @@
 import React, { Component } from "react";
+import styled from "styled-components";
 import axios from "axios";
 import { ResponsiveBar } from "@nivo/bar";
-import styled from "styled-components";
 
 const Container = styled.div`
   height: 60vh;
@@ -57,7 +57,7 @@ class TopLinks extends Component {
     const top_data = await axios.get(
       `http://localhost:5000/counter/${this.state.start_date}-${
         this.state.end_date
-      }/${this.state.non_ribbonfarm}/${this.state.search}`,
+      }-${this.state.non_ribbonfarm}-${this.state.search}`,
       {
         "Access-Control-Allow-Origin": "*"
       }
