@@ -42,7 +42,7 @@ def scrape_links_ribbonfarm():
 
 
 def top_100(start=2007, end=2019, non_ribbonfarm=False, search=False):
-    with open('links.csv', 'r') as f:
+    with open('./data/links.csv', 'r') as f:
         csv_r = list(csv.reader(f))
         flat = [
             link[0] for link in csv_r
@@ -55,7 +55,7 @@ def top_100(start=2007, end=2019, non_ribbonfarm=False, search=False):
 
 
 def all_data():
-    with open('links.csv', 'r') as f:
+    with open('./data/links.csv', 'r') as f:
         fieldnames = ("Link", "Article", "Author", "Date")
         data = csv.DictReader(f, fieldnames=fieldnames)
         data = [row for row in data]

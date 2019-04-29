@@ -13,7 +13,7 @@ def scrape_words_ribbonfarm():
         "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Mobile Safari/537.36"
     }
     res = requests.get('https://www.ribbonfarm.com/', headers=headers)
-    with open('words.csv', 'w') as f:
+    with open('./data/words.csv', 'w') as f:
         csv_w = csv.writer(f)
         while True:
             links = []
@@ -42,7 +42,7 @@ def scrape_words_ribbonfarm():
 
 
 def tf_idf():
-    with open('words.csv', 'r') as f:
+    with open('./data/words.csv', 'r') as f:
         csv_r = list(csv.reader(f))
 
         #tf
