@@ -5,7 +5,7 @@ from bs4 import BeautifulSoup
 from collections import Counter
 
 
-def scrape_all_ribbonfarm():
+def scrape_links_ribbonfarm():
     headers = {
         "User-Agent":
         "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Mobile Safari/537.36"
@@ -41,10 +41,15 @@ def scrape_all_ribbonfarm():
                 break
 
 
-def top_100():
+def top_100(start=2007, end=2019, non_ribbonfarm=False, search=False):
     with open('links.csv', 'r') as f:
         csv_r = list(csv.reader(f))
-        flat = [link[0] for link in csv_r]
+        flat = [
+            link[0] for link in csv_r
+            if start <= int(link[3].split()[-1]) <= end and (
+                not non_ribbonfarm or 'ribbonfarm' not in link[0]) and (
+                    not search or search in link[0])
+        ]
         data = Counter(flat)
         return data.most_common(100)
 
@@ -53,5 +58,5 @@ def all_data():
     with open('links.csv', 'r') as f:
         fieldnames = ("Link", "Article", "Author", "Date")
         data = csv.DictReader(f, fieldnames=fieldnames)
-        data = {"data": [row for row in data]}
+        data = [row for row in data]
         return data

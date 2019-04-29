@@ -13,7 +13,11 @@ def return_data():
     return json.dumps(data)
 
 
-@app.route('/counter')
-def return_top():
-    data = top_100()
+@app.route('/counter/<date_range>/<non_ribbonfarm>/<search>')
+def return_top(date_range, non_ribbonfarm, search):
+    date_range = date_range.split('-')
+    non_ribbonfarm = True if non_ribbonfarm == 'true' else False
+    search = None if search == 'false' else search
+    data = top_100(
+        int(date_range[0]), int(date_range[1]), non_ribbonfarm, search)
     return json.dumps(data)
