@@ -132,6 +132,7 @@ class TopLinks extends Component {
           }}
           onClick={this.handleOutlink}
         />
+
         <div className="selection">
           <div className="slider">
             <p># of bars {this.state.bars}</p>
