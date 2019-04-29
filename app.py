@@ -31,4 +31,4 @@ def return_top(params):
 @app.route('/words/<params>')
 def return_words(params):
     data = tf_idf()
-    return json.dumps({"tf_data": data[0], "authors": data[1]})
+    return json.dumps(data)

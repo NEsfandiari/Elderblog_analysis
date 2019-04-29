@@ -92,11 +92,17 @@ def tf_idf():
                         (total_documents - author_data['documents']) / count)
 
         all_author_tf_idf = []
+        id = 0
         for author, author_data in all_author_idf.items():
+            author_idf = []
             for key, val in author_data.items():
-                all_author_tf_idf.append({
+                author_idf.append({
                     "author": author,
                     "word": key,
-                    "score": val
+                    "score": val,
+                    "id": id
                 })
-        return all_author_tf_idf, list(all_author_idf.keys())
+                id += 1
+            all_author_tf_idf.append([author, author_idf])
+
+        return all_author_tf_idf

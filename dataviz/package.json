@@ -6,13 +6,13 @@
     "@nivo/bar": "^0.56.2",
     "@nivo/swarmplot": "^0.56.2",
     "axios": "^0.18.0",
+    "lodash": "^4.17.11",
     "react": "^16.8.4",
     "react-dom": "^16.8.4",
     "react-router": "^5.0.0",
     "react-router-dom": "^5.0.0",
     "react-scripts": "2.1.5",
-    "styled-components": "^4.2.0",
-    "underscore": "^1.9.1"
+    "styled-components": "^4.2.0"
   },
   "scripts": {
     "start": "react-scripts start",

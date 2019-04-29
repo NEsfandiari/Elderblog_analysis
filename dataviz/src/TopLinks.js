@@ -143,7 +143,6 @@ class TopLinks extends Component {
               min="1"
               max={topData.length}
               value={this.state.bar}
-              class="slider"
             />
           </div>
 

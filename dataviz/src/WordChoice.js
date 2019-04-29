@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import styled from "styled-components";
 import axios from "axios";
-import _ from "underscore";
+import _ from "lodash";
 import { ResponsiveSwarmPlot } from "@nivo/swarmplot";
 
 const Container = styled.div`
@@ -9,7 +9,11 @@ const Container = styled.div`
 `;
 
 class WordChoice extends Component {
-  state = { tf_idf: [], authors: ["authors"] };
+  state = {
+    tf_idf: [],
+    sample_data: [{ author: "Venkatesh Rao", score: 5, word: "2x2", id: ".1" }],
+    authors: ["Venkatesh Rao"]
+  };
   componentDidMount() {
     this.getWords();
   }
@@ -21,9 +25,29 @@ class WordChoice extends Component {
     const data = await axios.get(`http://localhost:5000/words/hi`, {
       "Access-Control-Allow-Origin": "*"
     });
-    debugger;
-    this.setState({ tf_idf: data.data.tf_data, authors: data.data.authors });
+    const sample_data = this.getRandom(data.data);
+    this.setState({
+      tf_idf: data.data,
+      sample_data: sample_data
+    });
   };
+
+  getRandom = arr => {
+    const sample_data = [];
+    arr.forEach(arr => {
+      if (this.state.authors.includes(arr[0])) {
+        const authorSample = _.sampleSize(arr[1], 100);
+        sample_data.push(...authorSample);
+      }
+    });
+    return sample_data;
+  };
+
+  handleNewWords = () => {
+    const sample_data = this.getRandom(this.state.tf_idf);
+    this.setState({ sample_data: sample_data });
+  };
+
   render() {
     return (
       <Container>
@@ -31,14 +55,15 @@ class WordChoice extends Component {
           <h4>Word Choice</h4>
         </div>
         <ResponsiveSwarmPlot
-          data={_.sample(this.state.tf_idf, 100)}
+          data={this.state.sample_data}
           groups={this.state.authors}
-          groupBy={"author"}
+          groupBy="author"
           value="score"
-          size={{
-            key: "volume",
-            values: [4, 20],
-            sizes: [6, 20]
+          identity={item => {
+            return item.id;
+          }}
+          label={item => {
+            return item.data.word;
           }}
           forceStrength={4}
           simulationIterations={100}
@@ -64,6 +89,7 @@ class WordChoice extends Component {
           motionStiffness={50}
           motionDamping={10}
         />
+        <button onClick={this.handleNewWords}>New Words</button>
       </Container>
     );
   }
