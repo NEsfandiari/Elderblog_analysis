@@ -1,4 +1,4 @@
-# Elder Blogging
+# Elder Blogging Analysis
 
 Please Review the Concept here: https://www.ribbonfarm.com/series/elderblog-sutra/
 
