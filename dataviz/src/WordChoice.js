@@ -18,8 +18,7 @@ const Container = styled.div`
     display: flex;
     flex-wrap: wrap;
     justify-content: space-around;
-    padding-left: 3rem;
-    padding-right: 3rem;
+    padding-right: 5rem;
     padding-bottom: 3rem;
   }
 
