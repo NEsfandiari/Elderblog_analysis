@@ -41,6 +41,7 @@ class WordChoice extends Component {
     const data = await axios.get(`http://localhost:5000/words`, {
       "Access-Control-Allow-Origin": "*"
     });
+    debugger;
     const sample_data = this.getRandom(data.data);
     this.setState({
       tf_idf: data.data,
@@ -52,7 +53,7 @@ class WordChoice extends Component {
     const sample_data = [];
     arr.forEach(arr => {
       if (this.state.authors.includes(arr[0])) {
-        const authorSample = _.sampleSize(arr[1], 100);
+        const authorSample = _.sampleSize(arr[1], 50);
         sample_data.push(...authorSample);
       }
     });
@@ -98,14 +99,22 @@ class WordChoice extends Component {
           groups={this.state.authors}
           groupBy="author"
           value="score"
+          size={item => {
+            const size = item.articles.length * parseInt(item.score);
+            if (size > 20) return 20;
+            else return size;
+          }}
           identity={item => {
             return item.id;
           }}
           label={item => {
             return item.data.word;
           }}
-          forceStrength={4}
-          simulationIterations={100}
+          forceStrength={2}
+          simulationIterations={60}
+          colorBy={item => {
+            return item.value;
+          }}
           borderColor={{
             from: "color",
             modifiers: [["darker", 0.6], ["opacity", 0.5]]

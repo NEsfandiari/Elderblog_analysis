@@ -41,11 +41,9 @@ def scrape_words_ribbonfarm():
                 break
 
 
-def tf_idf():
+def tf():
     with open('./data/words.csv', 'r') as f:
         csv_r = list(csv.reader(f))
-
-        #tf
         all_author_tf = dict()
         for post, title, author, date in csv_r:
 
@@ -73,36 +71,46 @@ def tf_idf():
                     author_data['unique_words'].add(word)
             author_data['total_word_count'] += total_terms
             author_data['documents'] += 1
+        return all_author_tf
 
-        #idf
-        total_documents = sum([
-            author_data['documents'] for author_data in all_author_tf.values()
-        ])
-        all_author_idf = dict()
-        for author, author_data in all_author_tf.items():
-            author_idf = all_author_idf[author] = dict()
-            for word in author_data['unique_words']:
-                count = 0
-                for author2, author_data2 in all_author_tf.items():
-                    for doc in author_data2['word_choice_tf'].values():
-                        if word in doc and author != author2:
+
+def unique_idf():
+    all_author_tf = tf()
+    total_documents = sum(
+        [author_data['documents'] for author_data in all_author_tf.values()])
+    all_author_idf = dict()
+
+    for author, author_data in all_author_tf.items():
+        author_idf = all_author_idf[author] = dict()
+        for word in author_data['unique_words']:
+            count = 0
+            articles = []
+            for author2, author_data2 in all_author_tf.items():
+                for title, doc in author_data2['word_choice_tf'].items():
+                    if word in doc:
+                        if author != author2:
                             count += 1
-                if count > 0:
-                    author_idf[word] = log(
-                        (total_documents - author_data['documents']) / count)
+                        else:
+                            articles.append(title)
+            if count > 0:
+                author_idf[word] = [
+                    log((total_documents - author_data['documents']) / count),
+                    articles
+                ]
 
-        all_author_tf_idf = []
-        id = 0
-        for author, author_data in all_author_idf.items():
-            author_idf = []
-            for key, val in author_data.items():
-                author_idf.append({
-                    "author": author,
-                    "word": key,
-                    "score": val,
-                    "id": id
-                })
-                id += 1
-            all_author_tf_idf.append([author, author_idf])
+    all_author_unique_idf = []
+    id = 0
+    for author, author_data in all_author_idf.items():
+        author_idf = []
+        for key, val in author_data.items():
+            author_idf.append({
+                "author": author,
+                "word": key,
+                "score": val[0],
+                'articles': val[1],
+                "id": id
+            })
+            id += 1
+        all_author_unique_idf.append([author, author_idf])
 
-        return all_author_tf_idf
+    return all_author_unique_idf
