@@ -4,15 +4,14 @@ import axios from "axios";
 import { ResponsiveBar } from "@nivo/bar";
 
 const Container = styled.div`
-  height: 60vh;
-  padding: 2rem;
+  height: 55vh;
   .selection {
-    border: 2rem;
+    border-bottom: 2rem;
     display: flex;
     flex-direction: column;
     justify-content: space-around;
     align-items: center;
-    width: 50rem;
+    width: 100%;
   }
   .slider {
     p {

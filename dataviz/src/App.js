@@ -9,6 +9,14 @@ const Container = styled.div`
     display: flex;
     justify-content: space-around;
     width: 20rem;
+    a {
+      text-decoration: none;
+      color: black;
+    }
+    a:hover {
+      color: grey;
+      transition: 0.3s;
+    }
   }
 `;
 class App extends Component {

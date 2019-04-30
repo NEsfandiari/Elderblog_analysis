@@ -24,30 +24,16 @@ const Container = styled.div`
 
 class WordChoice extends Component {
   state = {
-    tf_idf: [
-      [
-        "Venkatesh Rao",
-        [{ author: "Venkatesh Rao", score: 5, word: "2x2", id: ".1" }]
-      ]
-    ],
+    tf_idf: this.props.wordData,
     sample_data: [],
     authors: ["Venkatesh Rao"]
   };
   componentDidMount() {
-    this.getWords();
-  }
-
-  getWords = async () => {
-    const data = await axios.get(`http://localhost:5000/words`, {
-      "Access-Control-Allow-Origin": "*"
-    });
-    debugger;
-    const sample_data = this.getRandom(data.data);
+    const sample_data = this.getRandom(this.state.tf_idf);
     this.setState({
-      tf_idf: data.data,
       sample_data: sample_data
     });
-  };
+  }
 
   getRandom = arr => {
     const sample_data = [];
