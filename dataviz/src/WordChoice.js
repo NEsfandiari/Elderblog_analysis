@@ -5,17 +5,19 @@ import _ from "lodash";
 import { ResponsiveSwarmPlot } from "@nivo/swarmplot";
 
 const Container = styled.div`
-  height: 60vh;
   padding: 2rem;
+  height: 60vh;
   .content {
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
+    height: 50vh;
   }
   .check_boxes {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-evenly;
+    justify-content: space-around;
   }
 
   .input {
@@ -95,63 +97,60 @@ class WordChoice extends Component {
         <div className="header">
           <h4>Word Choice</h4>
         </div>
-        <div className="content">
-          {!this.state.updated ? (
-            <>
-              <p>Analyzing 1.2 Million Words!</p>
-              <Spinner name="pacman" />
-            </>
-          ) : (
-            <>
-              <ResponsiveSwarmPlot
-                data={this.state.sample_data}
-                groups={this.state.authors}
-                groupBy="author"
-                value="score"
-                size={item => {
-                  const size = item.articles.length * parseInt(item.score);
-                  if (size > 20) return 20;
-                  else return size;
-                }}
-                identity={item => {
-                  return item.id;
-                }}
-                label={item => {
-                  return item.data.word;
-                }}
-                forceStrength={2}
-                simulationIterations={60}
-                colorBy={item => {
-                  return item.value;
-                }}
-                borderColor={{
-                  from: "color",
-                  modifiers: [["darker", 0.6], ["opacity", 0.5]]
-                }}
-                margin={{
-                  top: 80,
-                  right: 100,
-                  bottom: 80,
-                  left: 100
-                }}
-                axisLeft={{
-                  orient: "left",
-                  tickSize: 10,
-                  tickPadding: 5,
-                  tickRotation: 0,
-                  legend: "Uniqueness Score",
-                  legendPosition: "middle",
-                  legendOffset: -76
-                }}
-                motionStiffness={50}
-                motionDamping={10}
-              />
-              <div className="selection">
-                <button onClick={this.handleNewWords}>New Words</button>
-                <div className="check_boxes">{checkBoxes}</div>
-              </div>
-            </>
-          )}
+
+        {!this.state.updated ? (
+          <div className="content">
+            <p>Analyzing 1.2 Million Words!</p>
+            <Spinner name="pacman" />
+          </div>
+        ) : (
+          <ResponsiveSwarmPlot
+            data={this.state.sample_data}
+            groups={this.state.authors}
+            groupBy="author"
+            value="score"
+            size={item => {
+              const size = item.articles.length * parseInt(item.score);
+              if (size > 20) return 20;
+              else return size;
+            }}
+            identity={item => {
+              return item.id;
+            }}
+            label={item => {
+              return item.data.word;
+            }}
+            forceStrength={2}
+            simulationIterations={60}
+            colorBy={item => {
+              return item.value;
+            }}
+            borderColor={{
+              from: "color",
+              modifiers: [["darker", 0.6], ["opacity", 0.5]]
+            }}
+            margin={{
+              top: 80,
+              right: 100,
+              bottom: 80,
+              left: 100
+            }}
+            axisLeft={{
+              orient: "left",
+              tickSize: 10,
+              tickPadding: 5,
+              tickRotation: 0,
+              legend: "Uniqueness Score",
+              legendPosition: "middle",
+              legendOffset: -76
+            }}
+            motionStiffness={50}
+            motionDamping={10}
+          />
+        )}
+        <div className="selection">
+          <button onClick={this.handleNewWords}>New Words</button>
+          <div className="check_boxes">{checkBoxes}</div>
         </div>
       </Container>
     );
