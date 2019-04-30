@@ -56,11 +56,9 @@ class TopLinks extends Component {
       e.preventDefault();
     }
     const top_data = await axios.get(
-      `https://elderblog-analysis.herokuapp.com/counter/${
-        this.state.start_date
-      }-${this.state.end_date}-${this.state.non_ribbonfarm}-${
-        this.state.search
-      }`,
+      `http://localhost:5000/counter/${this.state.start_date}-${
+        this.state.end_date
+      }-${this.state.non_ribbonfarm}-${this.state.search}`,
       {
         "Access-Control-Allow-Origin": "*"
       }
