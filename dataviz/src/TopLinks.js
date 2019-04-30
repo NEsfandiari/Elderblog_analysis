@@ -4,7 +4,8 @@ import axios from "axios";
 import { ResponsiveBar } from "@nivo/bar";
 
 const Container = styled.div`
-  height: 55vh;
+  height: 50vh;
+  padding: 0rem 2rem;
   .selection {
     border-bottom: 2rem;
     display: flex;
