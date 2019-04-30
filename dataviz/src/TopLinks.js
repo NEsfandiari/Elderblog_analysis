@@ -5,6 +5,7 @@ import { ResponsiveBar } from "@nivo/bar";
 
 const Container = styled.div`
   height: 60vh;
+  padding: 2rem;
   .selection {
     border: 2rem;
     display: flex;

@@ -28,7 +28,7 @@ def return_top(params):
     return json.dumps(data)
 
 
-@app.route('/words/<params>')
-def return_words(params):
+@app.route('/words')
+def return_words():
     data = tf_idf()
     return json.dumps(data)

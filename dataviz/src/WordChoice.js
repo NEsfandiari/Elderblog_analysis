@@ -6,23 +6,39 @@ import { ResponsiveSwarmPlot } from "@nivo/swarmplot";
 
 const Container = styled.div`
   height: 60vh;
+  padding: 2rem;
+  .check_boxes {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+  }
+
+  .input {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 0.8rem;
+    padding: 0.5rem;
+  }
 `;
 
 class WordChoice extends Component {
   state = {
-    tf_idf: [],
-    sample_data: [{ author: "Venkatesh Rao", score: 5, word: "2x2", id: ".1" }],
+    tf_idf: [
+      [
+        "Venkatesh Rao",
+        [{ author: "Venkatesh Rao", score: 5, word: "2x2", id: ".1" }]
+      ]
+    ],
+    sample_data: [],
     authors: ["Venkatesh Rao"]
   };
   componentDidMount() {
     this.getWords();
   }
 
-  getWords = async e => {
-    if (e) {
-      e.preventDefault();
-    }
-    const data = await axios.get(`http://localhost:5000/words/hi`, {
+  getWords = async () => {
+    const data = await axios.get(`http://localhost:5000/words`, {
       "Access-Control-Allow-Origin": "*"
     });
     const sample_data = this.getRandom(data.data);
@@ -48,7 +64,30 @@ class WordChoice extends Component {
     this.setState({ sample_data: sample_data });
   };
 
+  handleNewAuthor = e => {
+    const newState = this.state.authors;
+    if (e.target.checked && this.state.authors.length < 4) {
+      newState.push(e.target.value);
+      this.setState({ authors: [...newState] });
+    } else if (!e.target.checked && this.state.authors.length > 1) {
+      newState.splice(newState.indexOf(e.target.value), 1);
+      this.setState({ authors: [...newState] });
+    }
+  };
+
   render() {
+    const checkBoxes = this.state.tf_idf.map(arr => (
+      <div className="input">
+        <p>{arr[0]}</p>
+        <input
+          onChange={this.handleNewAuthor}
+          name="authors"
+          type="checkbox"
+          value={arr[0]}
+          checked={this.state.authors.includes(arr[0])}
+        />
+      </div>
+    ));
     return (
       <Container>
         <div className="header">
@@ -89,7 +128,10 @@ class WordChoice extends Component {
           motionStiffness={50}
           motionDamping={10}
         />
-        <button onClick={this.handleNewWords}>New Words</button>
+        <div className="selection">
+          <button onClick={this.handleNewWords}>New Words</button>
+          <div className="check_boxes">{checkBoxes}</div>
+        </div>
       </Container>
     );
   }
