@@ -22,14 +22,15 @@ const Container = styled.div`
   .date_range {
     display: flex;
     justify-content: space-around;
-    align-items: flex-end;
-    width: 50rem;
+    align-items: center;
+    flex-wrap: wrap;
   }
   .input {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    padding: 1rem;
   }
   button {
     height: 2rem;
@@ -55,7 +56,6 @@ class TopLinks extends Component {
     if (e) {
       e.preventDefault();
     }
-    debugger;
     const hostname =
       window.location.hostname === "localhost"
         ? "http://localhost:5000/"
@@ -104,7 +104,7 @@ class TopLinks extends Component {
           indexBy="link"
           margin={{
             top: 50,
-            right: 130,
+            right: 50,
             bottom: 50,
             left: 60
           }}
