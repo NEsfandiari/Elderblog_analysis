@@ -11,7 +11,7 @@ def scrape_links_ribbonfarm():
         "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Mobile Safari/537.36"
     }
     res = requests.get('https://www.ribbonfarm.com/', headers=headers)
-    with open('links.csv', 'w') as f:
+    with open('../data/links.csv', 'w') as f:
         csv_w = csv.writer(f)
         while True:
             links = []
@@ -42,7 +42,7 @@ def scrape_links_ribbonfarm():
 
 
 def top_100(start=2007, end=2019, non_ribbonfarm=False, search=False):
-    with open('./data/links.csv', 'r') as f:
+    with open('../data/links.csv', 'r') as f:
         csv_r = list(csv.reader(f))
         flat = [
             link[0] for link in csv_r
@@ -55,7 +55,7 @@ def top_100(start=2007, end=2019, non_ribbonfarm=False, search=False):
 
 
 def all_data():
-    with open('./data/links.csv', 'r') as f:
+    with open('../data/links.csv', 'r') as f:
         fieldnames = ("Link", "Article", "Author", "Date")
         data = csv.DictReader(f, fieldnames=fieldnames)
         data = [row for row in data]
