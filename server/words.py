@@ -5,6 +5,7 @@ import re
 from bs4 import BeautifulSoup
 from collections import Counter
 from math import log
+import json
 
 
 def scrape_words_ribbonfarm():
@@ -75,6 +76,7 @@ def tf():
 
 
 def unique_idf():
+
     all_author_tf = tf()
     total_documents = sum(
         [author_data['documents'] for author_data in all_author_tf.values()])
@@ -112,5 +114,12 @@ def unique_idf():
             })
             id += 1
         all_author_unique_idf.append([author, author_idf])
+    with open('./data/idf_data.txt', 'w') as f:
+        json.dump(all_author_unique_idf, f)
 
-    return all_author_unique_idf
+
+def return_idf_data():
+    with open('./data/idf_data.txt', 'r') as f:
+        data = json.load(f)
+        if len(data) > 0:
+            return data

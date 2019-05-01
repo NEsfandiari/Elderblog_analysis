@@ -25,6 +25,7 @@ class Routing extends Component {
     ]
   };
   async componentDidMount() {
+    debugger;
     const hostname =
       window.location.hostname === "localhost"
         ? "http://localhost:5000/"

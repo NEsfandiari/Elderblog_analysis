@@ -132,10 +132,10 @@ class WordChoice extends Component {
               modifiers: [["darker", 0.6], ["opacity", 0.5]]
             }}
             margin={{
-              top: 80,
-              right: 100,
-              bottom: 80,
-              left: 100
+              top: 50,
+              right: 50,
+              bottom: 50,
+              left: 50
             }}
             axisLeft={{
               orient: "left",

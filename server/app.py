@@ -1,7 +1,7 @@
 from flask import Flask, make_response
 from flask_cors import CORS
 from links import top_100
-from words import unique_idf
+from words import return_idf_data
 import json
 
 app = Flask(__name__)
@@ -29,7 +29,7 @@ def return_top(params):
 
 @app.route('/data/words')
 def return_words():
-    data = unique_idf()
+    data = return_idf_data()
     return json.dumps(data)
 
 
