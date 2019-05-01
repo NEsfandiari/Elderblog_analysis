@@ -1,16 +1,20 @@
-from flask import Flask
-from flask_cors import CORS, cross_origin
+from flask import Flask, send_from_directory, render_template, Blueprint
 from links import top_100
 from words import unique_idf
-import csv
 import json
+import os
 
-app = Flask(__name__)
-app.config['FREEZER_DESTINATION'] = 'flask_build'
-CORS(app)
+app = Flask(__name__, static_folder="build/static", template_folder="build")
+app.config['FREEZER_DESTINATION'] = 'Flask_Static_Build'
 
 
-@app.route('/counter/<params>')
+@app.route('/', defaults={'path': ''})
+@app.route('/<path:path>')
+def serve(path):
+    return render_template("index.html")
+
+
+@app.route('/data/links/<params>')
 def return_top(params):
     params = params.split('-')
 
@@ -23,11 +27,12 @@ def return_top(params):
     return json.dumps(data)
 
 
-@app.route('/words')
+@app.route('/data/words')
 def return_words():
     data = unique_idf()
     return json.dumps(data)
 
 
 if __name__ == '__main__':
+    print('Starting Flask!')
     app.run(debug=True)

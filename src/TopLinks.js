@@ -61,7 +61,7 @@ class TopLinks extends Component {
         ? "http://localhost:5000/"
         : "https://elderblog-analysis.netlify.com/";
     const top_data = await axios.get(
-      `${hostname}counter/${this.state.start_date}-${this.state.end_date}-${
+      `${hostname}data/links/${this.state.start_date}-${this.state.end_date}-${
         this.state.non_ribbonfarm
       }-${this.state.search}`,
       {

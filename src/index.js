@@ -29,7 +29,7 @@ class Routing extends Component {
       window.location.hostname === "localhost"
         ? "http://localhost:5000/"
         : "https://elderblog-analysis.netlify.com/";
-    const data = await axios.get(`${hostname}words`, {
+    const data = await axios.get(`${hostname}data/words`, {
       "Access-Control-Allow-Origin": "*"
     });
     this.setState({ wordData: data.data });
