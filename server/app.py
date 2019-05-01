@@ -3,7 +3,6 @@ from flask_cors import CORS
 from links import top_100
 from words import unique_idf
 import json
-import os
 
 app = Flask(__name__)
 CORS(app)
