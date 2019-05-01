@@ -1,11 +1,12 @@
-from flask import Flask, send_from_directory, render_template, Blueprint
+from flask import Flask, send_from_directory, render_template
+from flask_cors import CORS
 from links import top_100
 from words import unique_idf
 import json
 import os
 
 app = Flask(__name__, static_folder="build/static", template_folder="build")
-app.config['FREEZER_DESTINATION'] = 'Flask_Static_Build'
+CORS(app)
 
 
 @app.route('/', defaults={'path': ''})
