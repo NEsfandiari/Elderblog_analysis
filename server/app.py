@@ -1,18 +1,18 @@
-from flask import Flask, send_from_directory, render_template
+from flask import Flask, make_response
 from flask_cors import CORS
 from links import top_100
 from words import unique_idf
 import json
 import os
 
-app = Flask(__name__, static_folder="build/static", template_folder="build")
+app = Flask(__name__)
 CORS(app)
 
 
 @app.route('/', defaults={'path': ''})
 @app.route('/<path:path>')
 def serve(path):
-    return render_template("index.html")
+    return make_response("Elderblog Analysis Server :)")
 
 
 @app.route('/data/links/<params>')
