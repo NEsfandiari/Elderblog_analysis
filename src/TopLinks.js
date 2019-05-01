@@ -59,7 +59,7 @@ class TopLinks extends Component {
     const hostname =
       window.location.hostname === "localhost"
         ? "http://localhost:5000/"
-        : "https://elderblog-analysis-server.herokuapp.com";
+        : "https://elderblog-analysis-server.herokuapp.com/";
     const top_data = await axios.get(
       `${hostname}data/links/${this.state.start_date}-${this.state.end_date}-${
         this.state.non_ribbonfarm
