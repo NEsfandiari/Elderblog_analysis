@@ -33,7 +33,6 @@ six==1.11.0
 soupsieve==1.7.2
 stevedore==1.28.0
 termcolor==1.1.0
-typed-ast==1.1.1
 urllib3==1.24.1
 virtualenv==15.1.0
 virtualenv-clone==0.2.6
