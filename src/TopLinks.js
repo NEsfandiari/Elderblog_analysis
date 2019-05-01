@@ -56,9 +56,11 @@ class TopLinks extends Component {
       e.preventDefault();
     }
     const top_data = await axios.get(
-      `http://localhost:5000/counter/${this.state.start_date}-${
-        this.state.end_date
-      }-${this.state.non_ribbonfarm}-${this.state.search}`,
+      `https://elderblog-analysis.netlify.com/counter/${
+        this.state.start_date
+      }-${this.state.end_date}-${this.state.non_ribbonfarm}-${
+        this.state.search
+      }`,
       {
         "Access-Control-Allow-Origin": "*"
       }
