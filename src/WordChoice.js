@@ -102,7 +102,9 @@ class WordChoice extends Component {
 
         {!this.state.updated ? (
           <div className="content">
-            <p>Analyzing 1.2 Million Words!</p>
+            <p>
+              Analyzing 1.2 Million Words! <br /> Please Wait up to 30 seconds.
+            </p>
             <Spinner name="pacman" />
           </div>
         ) : (
