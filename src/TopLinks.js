@@ -55,12 +55,15 @@ class TopLinks extends Component {
     if (e) {
       e.preventDefault();
     }
+    debugger;
+    const hostname =
+      window.location.hostname === "localhost"
+        ? "http://localhost:5000/"
+        : "https://elderblog-analysis.netlify.com/";
     const top_data = await axios.get(
-      `https://elderblog-analysis.netlify.com/counter/${
-        this.state.start_date
-      }-${this.state.end_date}-${this.state.non_ribbonfarm}-${
-        this.state.search
-      }`,
+      `${hostname}counter/${this.state.start_date}-${this.state.end_date}-${
+        this.state.non_ribbonfarm
+      }-${this.state.search}`,
       {
         "Access-Control-Allow-Origin": "*"
       }

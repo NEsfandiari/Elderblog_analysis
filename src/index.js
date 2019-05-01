@@ -25,12 +25,13 @@ class Routing extends Component {
     ]
   };
   async componentDidMount() {
-    const data = await axios.get(
-      `https://elderblog-analysis.netlify.com/words`,
-      {
-        "Access-Control-Allow-Origin": "*"
-      }
-    );
+    const hostname =
+      window.location.hostname === "localhost"
+        ? "http://localhost:5000/"
+        : "https://elderblog-analysis.netlify.com/";
+    const data = await axios.get(`${hostname}words`, {
+      "Access-Control-Allow-Origin": "*"
+    });
     this.setState({ wordData: data.data });
   }
   render() {
