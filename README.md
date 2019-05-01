@@ -15,15 +15,15 @@ git clone https://github.com/NEsfandiari/Elderblog_analysis
 Then Install the server dependencies:
 
 ```sh
+cd server
 pip3 install -r requirements.txt
 ```
 
 ### Client
 
-Now enter the React App folder and install its dependencies:
+Install the client dependencies:
 
 ```sh
-cd dataviz
 npm i
 ```
 
@@ -31,6 +31,6 @@ npm i
 
 ```sh
 npm start
-cd ..
+cd server
 flask run
 ```
