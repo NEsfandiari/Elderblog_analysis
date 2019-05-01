@@ -6,6 +6,7 @@ import csv
 import json
 
 app = Flask(__name__)
+app.config['FREEZER_DESTINATION'] = 'flask_build'
 CORS(app)
 
 
@@ -26,3 +27,7 @@ def return_top(params):
 def return_words():
     data = unique_idf()
     return json.dumps(data)
+
+
+if __name__ == '__main__':
+    app.run(debug=True)
