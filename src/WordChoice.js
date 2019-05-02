@@ -29,6 +29,11 @@ const Container = styled.div`
     font-size: 0.8rem;
     padding: 0.5rem;
   }
+  @media (max-width: 500px) {
+    .check_boxes {
+      padding-right: 1rem;
+    }
+  }
 `;
 
 class WordChoice extends Component {
@@ -137,7 +142,7 @@ class WordChoice extends Component {
               top: 50,
               right: 50,
               bottom: 50,
-              left: 50
+              left: 85
             }}
             axisLeft={{
               orient: "left",
