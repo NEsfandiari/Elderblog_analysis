@@ -6,7 +6,7 @@ import { ResponsiveSwarmPlot } from "@nivo/swarmplot";
 
 const Container = styled.div`
   padding: 2rem;
-  height: 60vh;
+  height: 75vh;
   .content {
     display: flex;
     flex-direction: column;
@@ -143,6 +143,14 @@ class WordChoice extends Component {
               right: 50,
               bottom: 50,
               left: 85
+            }}
+            axisTop={{
+              orient: "top",
+              tickSize: 11,
+              tickPadding: 10,
+              legend: "Bubble size is the Term Frequency * Uniquness Score",
+              legendPosition: "middle",
+              legendOffset: -45
             }}
             axisLeft={{
               orient: "left",
