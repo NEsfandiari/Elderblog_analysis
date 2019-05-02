@@ -6,7 +6,7 @@ import { ResponsiveSwarmPlot } from "@nivo/swarmplot";
 
 const Container = styled.div`
   padding: 2rem;
-  height: 75vh;
+  height: 70vh;
   .content {
     display: flex;
     flex-direction: column;
