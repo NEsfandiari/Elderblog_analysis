@@ -7,7 +7,7 @@ import { ResponsiveLine } from "@nivo/line";
 const Container = styled.div`
   height: 50vh;
   padding: 0rem 2rem;
-  .radio-buttons {
+  .checkboxes {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-around;
@@ -24,7 +24,7 @@ const Container = styled.div`
 `;
 
 class EigenPosts extends Component {
-  state = { eigen_data: [], line_data: [], author: "Sarah Perry" };
+  state = { eigen_data: [], line_data: [], authors: ["Kevin Simler"] };
   async componentDidMount() {
     const hostname =
       window.location.hostname === "localhost"
@@ -56,22 +56,28 @@ class EigenPosts extends Component {
     });
   }
   handleNewAuthor = e => {
-    this.setState({ author: e.target.value });
+    let oldState = this.state.authors;
+    if (e.target.checked) {
+      this.setState({ authors: [...oldState, e.target.value] });
+    } else {
+      oldState.splice(oldState.indexOf(e.target.value), 1);
+      this.setState({ authors: [...oldState] });
+    }
   };
 
   render() {
     const line_data = this.state.line_data.filter(author => {
-      return author.id === this.state.author;
+      return this.state.authors.includes(author.id);
     });
-    const radioButtons = this.state.line_data.map(author => (
+    const checkboxes = this.state.line_data.map(author => (
       <div className="input">
         <p>{author.id}</p>
         <input
           onChange={this.handleNewAuthor}
           name="authors"
-          type="radio"
+          type="checkbox"
           value={author.id}
-          checked={this.state.author === author.id ? true : false}
+          checked={this.state.authors.includes(author.id) ? true : false}
         />
       </div>
     ));
@@ -128,8 +134,8 @@ class EigenPosts extends Component {
             }}
             enableDotLabel={false}
             animate={true}
-            motionStiffness={90}
-            motionDamping={15}
+            motionStiffness={50}
+            motionDamping={10}
             tooltip={item => {
               const p_tags = item.data.map(data => (
                 <p>
@@ -170,7 +176,7 @@ class EigenPosts extends Component {
             ]}
           />
         )}
-        <div className="radio-buttons">{radioButtons}</div>
+        <div className="checkboxes">{checkboxes}</div>
       </Container>
     );
   }
