@@ -18,7 +18,7 @@ const Container = styled.div`
     display: flex;
     flex-wrap: wrap;
     justify-content: space-around;
-    padding-right: 5rem;
+    padding-right: 3rem;
     padding-bottom: 3rem;
   }
 
@@ -102,13 +102,13 @@ class WordChoice extends Component {
     return (
       <Container>
         <div className="header">
-          <h4>Word Choice</h4>
+          <h4>Random Sample Comparision</h4>
         </div>
 
         {!this.state.updated ? (
           <div className="content">
             <p>
-              Analyzing 1.2 Million Words! <br /> Please Wait up to 30 seconds.
+              Analyzing 1.6 Million Words! <br /> Please Wait up to 30 seconds.
             </p>
             <Spinner name="pacman" />
           </div>

@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import styled from "styled-components";
 import axios from "axios";
 import { ResponsiveBar } from "@nivo/bar";
+import Spinner from "react-spinkit";
 
 const Container = styled.div`
   height: 50vh;
@@ -86,6 +87,7 @@ class TopLinks extends Component {
   render() {
     const topData = this.state.top_data;
     const barData = [];
+
     if (topData.length > 0) {
       let limit = this.state.bars;
       if (this.state.bars > topData.length) limit = topData.length;
@@ -93,51 +95,56 @@ class TopLinks extends Component {
         barData.push({ link: topData[i][0], count: topData[i][1] });
       }
     }
+
     return (
       <Container>
         <div className="header">
           <h4>Top In-Linked Items On Ribbonfarm</h4>
         </div>
-        <ResponsiveBar
-          data={barData}
-          keys={["count"]}
-          indexBy="link"
-          margin={{
-            top: 50,
-            right: 50,
-            bottom: 50,
-            left: 60
-          }}
-          padding={0.3}
-          colors={{
-            scheme: "pastel1"
-          }}
-          colorBy={item => {
-            const parser = document.createElement("a");
-            parser.href = item.indexValue;
-            if (parser.hostname.includes("www")) {
-              parser.hostname = parser.hostname.slice(4);
-            }
-            return parser.hostname;
-          }}
-          animate={true}
-          motionStiffness={90}
-          motionDamping={15}
-          enableGridY={true}
-          axisBottom={null}
-          tooltip={item => {
-            const parser = document.createElement("a");
-            parser.href = item.indexValue;
-            return (
-              <div style={{ ...item.theme }}>
-                <p>Hostname: {parser.hostname}</p>
-                <p>Pathname: {parser.pathname}</p>
-                <p>Count: {item.value}</p>
-              </div>
-            );
-          }}
-          onClick={this.handleOutlink}
-        />
+        {!this.state.top_data ? (
+          <Spinner name="pacman" />
+        ) : (
+          <ResponsiveBar
+            data={barData}
+            keys={["count"]}
+            indexBy="link"
+            margin={{
+              top: 50,
+              right: 50,
+              bottom: 50,
+              left: 60
+            }}
+            padding={0.3}
+            colors={{
+              scheme: "pastel1"
+            }}
+            colorBy={item => {
+              const parser = document.createElement("a");
+              parser.href = item.indexValue;
+              if (parser.hostname.includes("www")) {
+                parser.hostname = parser.hostname.slice(4);
+              }
+              return parser.hostname;
+            }}
+            animate={true}
+            motionStiffness={90}
+            motionDamping={15}
+            enableGridY={true}
+            axisBottom={null}
+            tooltip={item => {
+              const parser = document.createElement("a");
+              parser.href = item.indexValue;
+              return (
+                <div style={{ ...item.theme }}>
+                  <p>Hostname: {parser.hostname}</p>
+                  <p>Pathname: {parser.pathname}</p>
+                  <p>Count: {item.value}</p>
+                </div>
+              );
+            }}
+            onClick={this.handleOutlink}
+          />
+        )}
 
         <div className="selection">
           <div className="slider">

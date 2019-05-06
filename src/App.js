@@ -9,7 +9,8 @@ const Container = styled.div`
   .links {
     display: flex;
     justify-content: space-around;
-    width: 20rem;
+    flex-wrap: wrap;
+    width: 30rem;
     a {
       text-decoration: none;
       color: black;
@@ -28,7 +29,8 @@ class App extends Component {
         <h1>Data Visualizations</h1>
         <div className="links">
           <Link to="/links">Top Links</Link>
-          <Link to="/words">Semantic Analyszer</Link>
+          <Link to="/words">Author Word Choice</Link>
+          <Link to="/posts">Eigen Posts</Link>
         </div>
       </Container>
     );

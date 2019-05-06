@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@nivo/bar": "^0.56.2",
+    "@nivo/line": "^0.56.2",
     "@nivo/swarmplot": "^0.56.2",
     "axios": "^0.18.0",
     "lodash": "^4.17.11",

@@ -1,11 +1,12 @@
 import React, { Component } from "react";
 import ReactDOM from "react-dom";
-import TopLinks from "./TopLinks";
-import App from "./App";
-import WordChoice from "./WordChoice";
 import * as serviceWorker from "./serviceWorker";
 import { Route, BrowserRouter as Router } from "react-router-dom";
 import axios from "axios";
+import App from "./App";
+import TopLinks from "./TopLinks";
+import WordChoice from "./WordChoice";
+import EigenPosts from "./EigenPosts";
 
 class Routing extends Component {
   state = {
@@ -50,6 +51,7 @@ class Routing extends Component {
               <WordChoice {...props} wordData={this.state.wordData} />
             )}
           />
+          <Route path="/posts" component={EigenPosts} />
         </div>
       </Router>
     );
