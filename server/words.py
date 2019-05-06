@@ -42,6 +42,13 @@ def scrape_words_ribbonfarm():
                 break
 
 
+class SetEncoder(json.JSONEncoder):
+    def default(self, obj):
+        if isinstance(obj, set):
+            return list(obj)
+        return json.JSONEncoder.default(self, obj)
+
+
 def tf():
     with open('./data/words.csv', 'r') as f:
         csv_r = list(csv.reader(f))
@@ -72,12 +79,14 @@ def tf():
                     author_data['unique_words'].add(word)
             author_data['total_word_count'] += total_terms
             author_data['documents'] += 1
-        return all_author_tf
+        with open('./data/tf_data.txt', 'w') as f:
+            json.dump(all_author_tf, f, cls=SetEncoder)
 
 
 def unique_idf():
-
-    all_author_tf = tf()
+    all_author_tf = None
+    with open('./data/tf_data.txt', 'r') as f:
+        all_author_tf = json.load(f)
     total_documents = sum(
         [author_data['documents'] for author_data in all_author_tf.values()])
     all_author_idf = dict()
@@ -90,17 +99,16 @@ def unique_idf():
             for author2, author_data2 in all_author_tf.items():
                 for title, doc in author_data2['word_choice_tf'].items():
                     if word in doc:
-                        if author != author2:
-                            count += 1
-                        else:
+                        if author == author2:
                             articles.append(title)
-            if count > 0:
-                author_idf[word] = [
-                    log((total_documents - author_data['documents']) / count),
-                    articles
-                ]
+                        count += 1
 
-    all_author_unique_idf = []
+            if count > 1:
+                author_idf[word] = [log((total_documents) / count), articles]
+    with open('./data/idf_data.txt', 'w') as f:
+        json.dump(all_author_idf, f)
+
+    all_author_word_choice_idf = []
     id = 0
     for author, author_data in all_author_idf.items():
         author_idf = []
@@ -113,13 +121,34 @@ def unique_idf():
                 "id": id
             })
             id += 1
-        all_author_unique_idf.append([author, author_idf])
-    with open('./data/idf_data.txt', 'w') as f:
-        json.dump(all_author_unique_idf, f)
+        all_author_word_choice_idf.append([author, author_idf])
+    with open('./data/word_choice_data.txt', 'w') as f:
+        json.dump(all_author_word_choice_idf, f)
 
 
-def return_idf_data():
+import pdb
+
+
+def eigen_posts():
+    idf_data, tf_data = None, None
     with open('./data/idf_data.txt', 'r') as f:
-        data = json.load(f)
-        if len(data) > 0:
-            return data
+        idf_data = json.load(f)
+    with open('./data/tf_data.txt', 'r') as f2:
+        tf_data = json.load(f2)
+
+    all_author_eigen_posts = dict()
+    for author, author_data in tf_data.items():
+        eigen_posts = all_author_eigen_posts[author] = dict()
+        for post, words in author_data["word_choice_tf"].items():
+            post_score = 0
+            count = 0
+            for word in words.keys():
+                if word in idf_data[author]:
+                    post_score += idf_data[author][word][0]
+                    count += 1
+
+            if count > 0:
+                all_author_eigen_posts[author][post] = post_score / count
+
+    with open('./data/eigen_post_data.txt', 'w') as f3:
+        json.dump(all_author_eigen_posts, f3)

@@ -1,7 +1,6 @@
 from flask import Flask, make_response
 from flask_cors import CORS
 from links import top_100
-from words import return_idf_data
 import json
 
 app = Flask(__name__)
@@ -29,8 +28,10 @@ def return_top(params):
 
 @app.route('/data/words')
 def return_words():
-    data = return_idf_data()
-    return json.dumps(data)
+    with open('./data/word_choice_data.txt', 'r') as f:
+        data = json.load(f)
+        if len(data) > 0:
+            return json.dumps(data)
 
 
 if __name__ == '__main__':
