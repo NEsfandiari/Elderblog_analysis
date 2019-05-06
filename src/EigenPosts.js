@@ -7,10 +7,24 @@ import { ResponsiveLine } from "@nivo/line";
 const Container = styled.div`
   height: 50vh;
   padding: 0rem 2rem;
+  .radio-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    padding-right: 3rem;
+    padding-bottom: 3rem;
+  }
+  .input {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 0.8rem;
+    padding: 0.5rem;
+  }
 `;
 
 class EigenPosts extends Component {
-  state = { eigen_data: [], line_data: [] };
+  state = { eigen_data: [], line_data: [], author: "Sarah Perry" };
   async componentDidMount() {
     const hostname =
       window.location.hostname === "localhost"
@@ -38,17 +52,35 @@ class EigenPosts extends Component {
     }
     this.setState({
       eigen_data: eigen_data.data,
-      line_data: line_data.slice(7, 10)
+      line_data: line_data
     });
   }
+  handleNewAuthor = e => {
+    this.setState({ author: e.target.value });
+  };
+
   render() {
-    const line_data = this.state.line_data;
+    const line_data = this.state.line_data.filter(author => {
+      return author.id === this.state.author;
+    });
+    const radioButtons = this.state.line_data.map(author => (
+      <div className="input">
+        <p>{author.id}</p>
+        <input
+          onChange={this.handleNewAuthor}
+          name="authors"
+          type="radio"
+          value={author.id}
+          checked={this.state.author === author.id ? true : false}
+        />
+      </div>
+    ));
     return (
       <Container>
         <div className="header">
           <h4>Posts with Unique Word Choice</h4>
         </div>
-        {!this.state.eigen_data ? (
+        {this.state.line_data.length == 0 ? (
           <Spinner name="pacman" />
         ) : (
           <ResponsiveLine
@@ -67,45 +99,38 @@ class EigenPosts extends Component {
               min: "auto",
               max: "auto"
             }}
-            axisTop={null}
-            axisRight={null}
-            axisBottom={{
-              orient: "bottom",
+            axisTop={{
               tickSize: 5,
               tickPadding: 5,
               tickRotation: 0,
               legend: "Posts in order of Release",
-              legendOffset: 36,
+              legendOffset: -36,
               legendPosition: "middle"
             }}
+            axisRight={null}
+            axisBottom={null}
             axisLeft={{
               orient: "left",
               tickSize: 5,
               tickPadding: 5,
               tickRotation: 0,
-              legend: "Semantic Uniqueness Score",
+              legend: "Uniqueness Score",
               legendOffset: -40,
               legendPosition: "middle"
             }}
             colors={{
               scheme: "nivo"
             }}
-            dotSize={10}
-            dotColor={{
-              theme: "background"
-            }}
+            dotSize={8}
             dotBorderWidth={2}
             dotBorderColor={{
               from: "color"
             }}
-            enableDotLabel={true}
-            dotLabel="y"
-            dotLabelYOffset={-12}
+            enableDotLabel={false}
             animate={true}
             motionStiffness={90}
             motionDamping={15}
             tooltip={item => {
-              debugger;
               const p_tags = item.data.map(data => (
                 <p>
                   <span style={{ color: data.serie.color || "black" }}>
@@ -145,6 +170,7 @@ class EigenPosts extends Component {
             ]}
           />
         )}
+        <div className="radio-buttons">{radioButtons}</div>
       </Container>
     );
   }
