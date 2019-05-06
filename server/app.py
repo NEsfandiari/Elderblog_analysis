@@ -34,6 +34,14 @@ def return_words():
             return json.dumps(data)
 
 
+@app.route('/data/posts')
+def return_posts():
+    with open('./data/eigen_post_data.txt', 'r') as f:
+        data = json.load(f)
+        if len(data) > 0:
+            return json.dumps(data)
+
+
 if __name__ == '__main__':
     print('Starting Flask!')
     app.run(debug=True)

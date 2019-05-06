@@ -3,7 +3,7 @@ import csv
 import pdb
 import re
 from bs4 import BeautifulSoup
-from collections import Counter
+from collections import Counter, OrderedDict
 from math import log
 import json
 
@@ -138,7 +138,7 @@ def eigen_posts():
 
     all_author_eigen_posts = dict()
     for author, author_data in tf_data.items():
-        eigen_posts = all_author_eigen_posts[author] = dict()
+        eigen_posts = all_author_eigen_posts[author] = OrderedDict()
         for post, words in author_data["word_choice_tf"].items():
             post_score = 0
             count = 0
