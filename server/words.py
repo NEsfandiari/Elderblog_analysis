@@ -70,12 +70,12 @@ def tf():
 
             c = Counter(edited)
             doc = author_data['word_choice_tf'][title] = author_data[
-                'word_choice_tf'].get(title, dict())
+                'word_choice_tf'].get(title, dict(words={}, year=date))
             total_terms = len(edited)
 
             for word, count in c.items():
                 if word:
-                    doc[word] = (count / total_terms)
+                    doc["words"][word] = (count / total_terms)
                     author_data['unique_words'].add(word)
             author_data['total_word_count'] += total_terms
             author_data['documents'] += 1
@@ -98,7 +98,7 @@ def unique_idf():
             articles = []
             for author2, author_data2 in all_author_tf.items():
                 for title, doc in author_data2['word_choice_tf'].items():
-                    if word in doc:
+                    if word in doc["words"]:
                         if author == author2:
                             articles.append(title)
                         count += 1
@@ -126,9 +126,6 @@ def unique_idf():
         json.dump(all_author_word_choice_idf, f)
 
 
-import pdb
-
-
 def eigen_posts():
     idf_data, tf_data = None, None
     with open('./data/idf_data.txt', 'r') as f:
@@ -139,16 +136,17 @@ def eigen_posts():
     all_author_eigen_posts = dict()
     for author, author_data in tf_data.items():
         eigen_posts = all_author_eigen_posts[author] = OrderedDict()
-        for post, words in author_data["word_choice_tf"].items():
+        for post, data in author_data["word_choice_tf"].items():
             post_score = 0
             count = 0
-            for word in words.keys():
+            for word in data["words"].keys():
                 if word in idf_data[author]:
                     post_score += idf_data[author][word][0]
                     count += 1
 
             if count > 0:
-                all_author_eigen_posts[author][post] = post_score / count
+                all_author_eigen_posts[author][post] = dict(
+                    score=(post_score / count), year=data["year"])
 
     with open('./data/eigen_post_data.txt', 'w') as f3:
         json.dump(all_author_eigen_posts, f3)

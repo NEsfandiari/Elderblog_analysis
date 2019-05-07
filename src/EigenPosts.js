@@ -33,22 +33,26 @@ class EigenPosts extends Component {
     const eigen_data = await axios.get(`${hostname}data/posts`, {
       "Access-Control-Allow-Origin": "*"
     });
-
     const line_data = [];
     for (let author in eigen_data.data) {
-      const data = Object.entries(eigen_data.data[author])
-        .reverse()
-        .map((post, i) => {
-          return {
-            x: i,
-            y: Math.round(100 * post[1]) / 100,
-            post: post[0]
-          };
+      if (author !== "Venkatesh Rao") {
+        const data = Object.entries(eigen_data.data[author])
+          .reverse()
+          .map((post, i) => {
+            return {
+              x: i,
+              y: Math.round(100 * post[1]["score"]) / 100,
+              post: post[0],
+              year: post[1]["year"].slice(-4)
+            };
+          });
+        line_data.push({
+          id: author,
+          data: data
         });
-      line_data.push({
-        id: author,
-        data: data
-      });
+      } else {
+        //TODO create era'd version of venkatesh
+      }
     }
     this.setState({
       eigen_data: eigen_data.data,
@@ -134,15 +138,16 @@ class EigenPosts extends Component {
             }}
             enableDotLabel={false}
             animate={true}
-            motionStiffness={50}
-            motionDamping={10}
+            motionStiffness={90}
+            motionDamping={15}
             tooltip={item => {
+              debugger;
               const p_tags = item.data.map(data => (
                 <p>
                   <span style={{ color: data.serie.color || "black" }}>
                     {data.serie.id}
                   </span>{" "}
-                  : <b>{data.data.post}</b>
+                  : <b>{data.data.post}</b>, {data.data.year}
                 </p>
               ));
               return <div style={{ ...item.theme }}>{p_tags}</div>;
