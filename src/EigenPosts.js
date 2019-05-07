@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import styled from "styled-components";
-import Spinner from "react-spinkit";
 import axios from "axios";
 import { ResponsiveLine } from "@nivo/line";
 
@@ -90,97 +89,93 @@ class EigenPosts extends Component {
         <div className="header">
           <h4>Posts with Unique Word Choice</h4>
         </div>
-        {this.state.line_data.length == 0 ? (
-          <Spinner name="pacman" />
-        ) : (
-          <ResponsiveLine
-            data={line_data}
-            margin={{
-              top: 50,
-              right: 110,
-              bottom: 50,
-              left: 60
-            }}
-            xScale={{
-              type: "point"
-            }}
-            yScale={{
-              type: "linear",
-              min: "auto",
-              max: "auto"
-            }}
-            axisTop={{
-              tickSize: 5,
-              tickPadding: 5,
-              tickRotation: 0,
-              legend: "Posts in order of Release",
-              legendOffset: -36,
-              legendPosition: "middle"
-            }}
-            axisRight={null}
-            axisBottom={null}
-            axisLeft={{
-              orient: "left",
-              tickSize: 5,
-              tickPadding: 5,
-              tickRotation: 0,
-              legend: "Uniqueness Score",
-              legendOffset: -40,
-              legendPosition: "middle"
-            }}
-            colors={{
-              scheme: "nivo"
-            }}
-            dotSize={8}
-            dotBorderWidth={2}
-            dotBorderColor={{
-              from: "color"
-            }}
-            enableDotLabel={false}
-            animate={true}
-            motionStiffness={90}
-            motionDamping={15}
-            tooltip={item => {
-              debugger;
-              const p_tags = item.data.map(data => (
-                <p>
-                  <span style={{ color: data.serie.color || "black" }}>
-                    {data.serie.id}
-                  </span>{" "}
-                  : <b>{data.data.post}</b>, {data.data.year}
-                </p>
-              ));
-              return <div style={{ ...item.theme }}>{p_tags}</div>;
-            }}
-            enableStackTooltip={true}
-            legends={[
-              {
-                anchor: "bottom-right",
-                direction: "column",
-                justify: false,
-                translateX: 100,
-                translateY: 0,
-                itemsSpacing: 0,
-                itemDirection: "left-to-right",
-                itemWidth: 80,
-                itemHeight: 20,
-                itemOpacity: 0.75,
-                symbolSize: 12,
-                symbolShape: "circle",
-                symbolBorderColor: "rgba(0, 0, 0, .5)",
-                effects: [
-                  {
-                    on: "hover",
-                    style: {
-                      itemBackground: "rgba(0, 0, 0, .03)",
-                      itemOpacity: 1
-                    }
+        <ResponsiveLine
+          data={line_data}
+          margin={{
+            top: 50,
+            right: 110,
+            bottom: 50,
+            left: 60
+          }}
+          xScale={{
+            type: "point"
+          }}
+          yScale={{
+            type: "linear",
+            min: "auto",
+            max: "auto"
+          }}
+          axisTop={{
+            tickSize: 5,
+            tickPadding: 5,
+            tickRotation: 0,
+            legend: "Posts in order of Release",
+            legendOffset: -36,
+            legendPosition: "middle"
+          }}
+          axisRight={null}
+          axisBottom={null}
+          axisLeft={{
+            orient: "left",
+            tickSize: 5,
+            tickPadding: 5,
+            tickRotation: 0,
+            legend: "Uniqueness Score",
+            legendOffset: -40,
+            legendPosition: "middle"
+          }}
+          colors={{
+            scheme: "nivo"
+          }}
+          dotSize={8}
+          dotBorderWidth={2}
+          dotBorderColor={{
+            from: "color"
+          }}
+          enableDotLabel={false}
+          animate={true}
+          motionStiffness={90}
+          motionDamping={15}
+          tooltip={item => {
+            debugger;
+            const p_tags = item.data.map(data => (
+              <p>
+                <span style={{ color: data.serie.color || "black" }}>
+                  {data.serie.id}
+                </span>{" "}
+                : <b>{data.data.post}</b>, {data.data.year}
+              </p>
+            ));
+            return <div style={{ ...item.theme }}>{p_tags}</div>;
+          }}
+          enableStackTooltip={true}
+          legends={[
+            {
+              anchor: "bottom-right",
+              direction: "column",
+              justify: false,
+              translateX: 100,
+              translateY: 0,
+              itemsSpacing: 0,
+              itemDirection: "left-to-right",
+              itemWidth: 80,
+              itemHeight: 20,
+              itemOpacity: 0.75,
+              symbolSize: 12,
+              symbolShape: "circle",
+              symbolBorderColor: "rgba(0, 0, 0, .5)",
+              effects: [
+                {
+                  on: "hover",
+                  style: {
+                    itemBackground: "rgba(0, 0, 0, .03)",
+                    itemOpacity: 1
                   }
-                ]
-              }
-            ]}
-          />
-        )}
+                }
+              ]
+            }
+          ]}
+        />
         <div className="checkboxes">{checkboxes}</div>
       </Container>
     );
