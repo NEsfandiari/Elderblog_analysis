@@ -33,10 +33,6 @@ const Container = styled.div`
     align-items: center;
     padding: 1rem;
   }
-  button {
-    height: 2rem;
-    width: 5rem;
-  }
 `;
 
 class TopLinks extends Component {
