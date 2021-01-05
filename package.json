@@ -6,7 +6,7 @@
     "@nivo/bar": "^0.56.2",
     "@nivo/line": "^0.56.2",
     "@nivo/swarmplot": "^0.56.2",
-    "axios": "^0.18.0",
+    "axios": "^0.21.1",
     "lodash": "^4.17.11",
     "react": "^16.8.4",
     "react-dom": "^16.8.4",
